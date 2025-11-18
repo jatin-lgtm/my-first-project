@@ -7,7 +7,11 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: "http://localhost:5000",
+        // Docker backend service name
+        target: process.env.DOCKER_ENV === "true"
+          ? "http://backend-service:5000"
+          : "http://localhost:5000",
+
         changeOrigin: true,
         secure: false
       }
